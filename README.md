@@ -1,43 +1,32 @@
 # LangForm-Agent---LangGraph---PlayWright
 An AI-powered form-automation system built using LangGraph and Playwright. It orchestrates agentic workflows to detect, classify, and fill form fields dynamically using a state-driven graph architecture.
 
-📌 Features
 
-🧠 Agentic automation using LangGraph
-🌐 Real browser automation via Playwright (Chromium)
-🔍 Field detection, classification, and intelligent filling
-🔄 Continuous loop until all fields are filled
-🧩 Modular Agents: Detect → Classify → Fill → Advance
-🧪 Works on any local or hosted HTML form
+## 📦 Tech Stack
 
-🏗️ Architecture Flow
-                ┌──────────────────────┐
-                │   detect_next_field   │
-                └────────────┬─────────┘
-                             ▼
-                ┌──────────────────────┐
-                │    classify_field     │
-                └────────────┬─────────┘
-                             ▼
-                ┌──────────────────────┐
-                │      fill_field       │  →  Playwright types, clicks, uploads
-                └────────────┬─────────┘
-                             ▼
-                ┌──────────────────────┐
-                │    advance_focus      │
-                └────────────┬─────────┘
-                             │
-                             └─────────────── Loop until no fields remain
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
+![LangGraph](https://img.shields.io/badge/LangGraph-8A2BE2?logo=flowbite&logoColor=white)
+![Playwright](https://img.shields.io/badge/Playwright-2EAD33?logo=playwright&logoColor=white)
+![Chromium](https://img.shields.io/badge/Chromium-4285F4?logo=google-chrome&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
+![Automation](https://img.shields.io/badge/Automation-FF5722?logo=robotframework&logoColor=white)
 
 
-⚙️ Installation
-1️⃣ Create a Virtual Environment
+## 🚀 Getting Started
+
+### 🔧 Install Dependencies
+Run the following commands in the project root folder:
+
+```bash
 python3 -m venv venv
 source venv/bin/activate      # macOS/Linux
 venv\Scripts\activate         # Windows
 
-2️⃣ Install Dependencies
 pip install -r requirements.txt
-
-▶️ Run the Application
+playwright install
+```
+### ▶️ Start the Application 
+```bash
 python main.py
+```
+
