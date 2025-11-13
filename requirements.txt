@@ -1,0 +1,5 @@
+langgraph
+# pyautogui
+python-dotenv
+playwright
+python-dotenv

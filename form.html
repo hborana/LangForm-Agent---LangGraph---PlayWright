@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Resume Parser Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --bg: #0f172a; /* slate-900 */
+        --card: #111827; /* gray-900 */
+        --muted: #9ca3af; /* gray-400 */
+        --text: #e5e7eb; /* gray-200 */
+        --accent: #6366f1; /* indigo-500 */
+        --accent-2: #8b5cf6; /* violet-500 */
+        --ring: #818cf8; /* indigo-400 */
+        --ok: #10b981; /* emerald-500 */
+        --warn: #f59e0b; /* amber-500 */
+        --err: #ef4444; /* red-500 */
+        --radius: 16px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background: radial-gradient(
+            1200px 800px at 20% 0%,
+            #111827,
+            #0b1022 70%
+          ),
+          var(--bg);
+        color: var(--text);
+        font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+          "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 560px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        border: 1px solid rgba(99, 102, 241, 0.16);
+        border-radius: var(--radius);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        padding: 28px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: -60% -60% auto auto;
+        width: 420px;
+        height: 420px;
+        border-radius: 50%;
+        background: radial-gradient(
+          closest-side,
+          rgba(99, 102, 241, 0.18),
+          transparent 70%
+        );
+        filter: blur(20px);
+        pointer-events: none;
+      }
+
+      h1 {
+        margin: 0 0 4px;
+        font-size: 1.5rem;
+        letter-spacing: 0.2px;
+      }
+      p.sub {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      form {
+        display: grid;
+        gap: 14px;
+      }
+
+      .field {
+        display: grid;
+        gap: 6px;
+      }
+      label {
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="file"] {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid rgba(129, 140, 248, 0.35);
+        background: rgba(17, 24, 39, 0.65);
+        color: var(--text);
+        outline: none;
+        transition: box-shadow 0.15s ease, border-color 0.15s ease,
+          transform 0.02s ease;
+      }
+      input[type="text"]:focus,
+      input[type="email"]:focus,
+      input[type="file"]:focus {
+        border-color: var(--ring);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+      }
+
+      /* Radios as pills */
+      .radio-group {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 10px;
+        border: 1px dashed rgba(129, 140, 248, 0.25);
+        border-radius: 12px;
+        background: rgba(17, 24, 39, 0.35);
+      }
+      .radio {
+        position: relative;
+      }
+      .radio input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .radio span {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(129, 140, 248, 0.2);
+        background: rgba(17, 24, 39, 0.5);
+        color: var(--text);
+        cursor: pointer;
+        user-select: none;
+        transition: transform 0.02s ease, border-color 0.15s ease,
+          background 0.15s ease;
+      }
+      .radio input:checked + span {
+        border-color: var(--accent);
+        background: rgba(99, 102, 241, 0.15);
+        box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.35);
+      }
+      .radio span::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid rgba(129, 140, 248, 0.6);
+      }
+      .radio input:checked + span::before {
+        border-color: var(--accent);
+        background: var(--accent);
+      }
+
+      /* Submit */
+      input[type="submit"] {
+        margin-top: 8px;
+        padding: 12px 16px;
+        border: 0;
+        border-radius: 12px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+        cursor: pointer;
+        box-shadow: 0 10px 24px rgba(99, 102, 241, 0.28);
+        transition: transform 0.04s ease, box-shadow 0.15s ease,
+          filter 0.15s ease;
+      }
+      input[type="submit"]:hover {
+        filter: brightness(1.05);
+      }
+      input[type="submit"]:active {
+        transform: translateY(1px);
+      }
+
+      /* Helper/status row */
+      .row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .status {
+        font-size: 0.9rem;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 24px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--muted);
+      }
+      .status.parsing .dot {
+        background: var(--warn);
+      }
+      .status.ok .dot {
+        background: var(--ok);
+      }
+      .status.err .dot {
+        background: var(--err);
+      }
+
+      /* Small screens */
+      @media (max-width: 420px) {
+        .card {
+          padding: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card" role="main" aria-labelledby="title">
+      <h1 id="title">Apply Now</h1>
+      <p class="sub">
+        Drop your resume and we’ll auto-fill your details. Review & submit.
+      </p>
+
+      <!-- Same fields, beautified -->
+      <form id="appForm" method="POST" action="/submit_form" novalidate>
+        <div class="field">
+          <label for="first_name">First Name</label>
+          <input
+            id="first_name"
+            type="text"
+            name="first_name"
+            placeholder="First Name"
+            autocomplete="given-name"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="last_name">Last Name</label>
+          <input
+            id="last_name"
+            type="text"
+            name="last_name"
+            placeholder="Last Name"
+            autocomplete="family-name"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="Email"
+            autocomplete="email"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input
+            id="phone"
+            type="text"
+            name="phone"
+            placeholder="Phone"
+            inputmode="tel"
+            pattern="^[+\d][\d\s().-]{6,}$"
+            aria-describedby="phoneHelp"
+          />
+          <small id="phoneHelp" style="color: var(--muted)"
+            >Use digits only or +country code.</small
+          >
+        </div>
+
+        <div class="field">
+          <label>Employment Status</label>
+          <div
+            class="radio-group"
+            role="radiogroup"
+            aria-label="Employment Status"
+          >
+            <label class="radio">
+              <input type="radio" name="employment_status" value="employed" />
+              <span>Employed</span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="employment_status" value="unemployed" />
+              <span>Unemployed</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field row">
+          <div>
+            <label for="resume">Resume</label>
+            <input
+              id="resume"
+              type="file"
+              name="resume"
+              accept=".pdf,.doc,.docx"
+            />
+          </div>
+          <div id="status" class="status">
+            <span class="dot"></span>
+            <span class="msg">Waiting for resume…</span>
+          </div>
+        </div>
+
+        <input type="submit" value="Submit" />
+      </form>
+    </main>
+
+    <script>
+      // ----- Minimal Resume Parser Hook -----
+      // Keeps the exact fields; calls a backend to parse and fill them.
+      // Expected backend: POST /parse_resume -> JSON { first_name, last_name, email, phone, employment_status }
+      (function () {
+        const form = document.getElementById("appForm");
+        const fileInput = document.getElementById("resume");
+        const statusEl = document.getElementById("status");
+        const msgEl = statusEl?.querySelector(".msg");
+
+        const setStatus = (cls, text) => {
+          statusEl.classList.remove("parsing", "ok", "err");
+          if (cls) statusEl.classList.add(cls);
+          if (text) msgEl.textContent = text;
+        };
+
+        fileInput.addEventListener("change", async () => {
+          const file = fileInput.files?.[0];
+          if (!file) return setStatus("", "Waiting for resume…");
+
+          try {
+            setStatus("parsing", "Parsing resume…");
+
+            const fd = new FormData();
+            fd.append("resume", file);
+
+            // Replace with your real parser endpoint
+            const res = await fetch("/parse_resume", {
+              method: "POST",
+              body: fd,
+            });
+
+            if (!res.ok) {
+              throw new Error("Parser request failed");
+            }
+
+            const data = await res.json();
+
+            // Fill known fields if provided
+            if (data.first_name)
+              document.getElementById("first_name").value = data.first_name;
+            if (data.last_name)
+              document.getElementById("last_name").value = data.last_name;
+            if (data.email) document.getElementById("email").value = data.email;
+            if (data.phone) document.getElementById("phone").value = data.phone;
+
+            if (data.employment_status) {
+              const val = String(data.employment_status).toLowerCase();
+              const radio = form.querySelector(
+                `input[type="radio"][name="employment_status"][value="${val}"]`
+              );
+              if (radio) radio.checked = true;
+            }
+
+            setStatus("ok", "Parsed! Review and submit.");
+          } catch (e) {
+            console.error(e);
+            setStatus(
+              "err",
+              "Couldn’t parse automatically. You can fill manually."
+            );
+          }
+        });
+
+        // Optional: client-side guardrails (no extra fields added)
+        form.addEventListener("submit", (e) => {
+          // Basic UX validation
+          const email = document.getElementById("email");
+          if (email.value && !email.checkValidity()) {
+            e.preventDefault();
+            email.focus();
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
